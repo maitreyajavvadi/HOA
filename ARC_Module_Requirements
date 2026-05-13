@@ -1,0 +1,247 @@
+# Architectural Review Committee (ARC) Module — Product Requirements Document
+
+**Product:** Harmony — The Operating System for American Communities
+**Module:** Architectural Review Committee (ARC) Request Management
+**Version:** 1.0
+**Date:** May 13, 2026
+
+---
+
+## 1. Overview
+
+The ARC module enables homeowners to submit, track, and communicate about exterior modification requests to their HOA's Architectural Review Committee. It also provides the ARC committee (back-office users) with tools to review, approve, deny, and communicate decisions. The goal is to reduce rejected submissions by guiding homeowners through compliant requests, and to unify all communication between homeowners, the ARC committee, and contractors in one place.
+
+---
+
+## 2. User Roles
+
+| Role | Description |
+|---|---|
+| **Homeowner** | Submits and tracks ARC requests from the resident-facing portal |
+| **ARC Committee Member** | Reviews and acts on requests via the back-office (may be a board member or dedicated committee member depending on community size) |
+| **Contractor** | Receives approved conditions and project communications (future phase) |
+
+---
+
+## 3. Module Structure — Tabs
+
+The ARC module is accessed from the resident portal under the property section and is organized into five tabs:
+
+| Tab | Purpose |
+|---|---|
+| **Overview** | Dashboard summary of all requests and their statuses |
+| **New Request** | Multi-step wizard to submit a new ARC request |
+| **My Requests** | Full list of the homeowner's submitted requests and their statuses |
+| **Communications** | Unified message thread per request between homeowner and ARC committee |
+| **Resources** | Reference documents — legal statutes, community rules, approved materials |
+
+---
+
+## 4. Feature Requirements
+
+### 4.1 Overview Tab
+
+- Display summary statistics:
+  - **Total Requests** (count)
+  - **Pending Review** (count)
+  - **Approved** (count)
+  - **Denied / Appeal** (count)
+- Display an **Active Requests** list showing:
+  - Request name
+  - Submission date
+  - Current status badge (e.g., Approved w/ Conditions, Under Review, Denied, Approved, Overdue)
+  - Overdue indicator when the 30-day review window has elapsed
+- Display a **30-Day Review Timeline** section with the relevant legal rule (NC GS §47F-3-107)
+- Include a prominent **"Submit New ARC Request"** CTA button
+
+---
+
+### 4.2 New Request Wizard (4-Step Flow)
+
+#### Step 1 — Category Selection
+- Present a grid of modification type options:
+  - Fencing
+  - Deck / Patio
+  - Exterior Paint
+  - Landscaping
+  - Roofing
+  - Solar / Energy
+  - Addition / Remodel
+  - Pool / Spa
+  - Outbuilding
+  - Driveway / Walkway
+  - Other
+- Each category shows a short description (e.g., "New fence, gate, or fence modification")
+- User must select one category before proceeding
+
+#### Step 2 — Project Details
+Fields to collect:
+- Project Title *(required)*
+- Description — detailed description of the modification including dimensions, style, purpose *(required)*
+- Estimated Cost
+- Target Start Date
+- Contractor Name (Company name, if known)
+- Contractor License # (format: NC-GC-XXXXX for North Carolina)
+- Contractor Phone
+
+#### Step 3 — Property Impact & Materials
+Fields to collect:
+- Property Impact Description *(required)*
+- Affected Areas (comma-separated, e.g., "Rear yard, East side yard")
+- Materials to be Used (one per line — brand, color, type)
+- **Neighbors Have Been Notified** checkbox — adjacent property owners must be informed before submission *(required)*
+- Attach Supporting Documents (plans, photos, contractor estimates, surveys) — file upload
+
+#### Step 4 — Review & Submit
+- Summary of all entered information:
+  - Category
+  - Title
+  - Description
+  - Estimated Cost
+  - Contractor
+  - Property Impact
+  - Neighbors Notified status
+- "What Happens Next?" informational panel:
+  - Per NC GS §47F-3-107, the ARC committee has 30 days to review and respond
+  - Adjacent neighbors will be notified and have 10 days to submit comments
+  - Homeowner will receive updates via the Communications tab
+- **Back** and **Submit ARC Request** buttons
+- On submission: show a toast/confirmation notification — "ARC Request Submitted — The ARC committee will review within 30 days per NC GS §47F-3-107"
+
+---
+
+### 4.3 My Requests Tab
+
+- List all requests submitted by the homeowner
+- Each row displays:
+  - Category icon
+  - Request title
+  - Category type + submission date + estimated cost
+  - Status badge
+- Status badge types and colors:
+  - **Completed** — neutral
+  - **Approved w/ Conditions** — amber/yellow
+  - **Under Review** — blue
+  - **Denied** — red
+  - **Draft** — grey
+  - **Approved** — green
+- Clicking a row navigates to the full request detail view (including message thread, uploaded documents, conditions)
+
+---
+
+### 4.4 Communications Tab
+
+- Each ARC request has its own **message thread** between the homeowner and the ARC committee
+- Thread displays:
+  - Sender name and role
+  - Message timestamp
+  - Full message body
+- Messages show both homeowner-initiated and ARC committee responses
+- Homeowner can compose and send new messages via a text input + "Send Message" button
+- ARC committee responses (e.g., "APPROVED WITH CONDITIONS") appear inline in the thread with any attached conditions
+
+**Future Phase — Unified Communications:**
+- Support for email threading: generate a unique email address per conversation; replies CC'd to that address are captured and displayed in the thread
+- WhatsApp / SMS channel support (non-blocking for v1)
+- All communications (email, in-app, SMS) should be trackable in one unified thread per request
+
+---
+
+### 4.5 Resources Tab
+
+The Resources section provides two types of reference content:
+
+#### Legal Basis — NC General Statutes (Architectural Review)
+Display the following statutes with titles and brief descriptions:
+- **NC GS §47F-3-107 — Architectural Review**: Grants HOA authority to establish architectural guidelines; requires 30-day response to applications
+- **NC GS §47F-3-107.1 — Variance Procedures**: Requires hearing procedures for variances; homeowner must receive 10-day advance notice
+- **NC GS §22B-20 — Solar Collector Rights**: HOAs cannot prohibit solar installations; may impose reasonable aesthetic restrictions only
+- **NC GS §47F-3-102 — Powers of Association**: General powers of the HOA including enforcement of architectural standards
+
+#### Approved Materials & Colors
+- Reference guide for pre-approved exterior materials, colors, and specifications
+- Content to be managed by HOA admins in back-office
+
+#### Process Guide (shown before the legal section)
+Display the ARC process steps:
+1. **Submit Request** — Complete the online form with project details, materials, and documents
+2. **Neighbor Notification** — Adjacent owners receive notice and have 10 days to comment
+3. **Committee Review** — ARC committee reviews within 30 days per NC law
+4. **Decision Issued** — Approved, Approved with Conditions, or Denied
+5. **Construction** — Upon approval, work must begin within 90 days and complete within 180 days unless otherwise specified
+6. **Final Inspection** — ARC inspects completed work to verify compliance with approved plans
+
+---
+
+## 5. Request Detail View
+
+When a homeowner clicks a request from "My Requests," they see a full detail page containing:
+- Request status and metadata
+- Uploaded supporting documents (file name, description, upload date)
+- Conditions (if "Approved with Conditions") — listed clearly
+- Message thread (same as Communications tab, scoped to this request)
+- Ability to reply to the ARC committee
+
+---
+
+## 6. Request Statuses
+
+| Status | Description |
+|---|---|
+| Draft | Created but not yet submitted |
+| Under Review / Pending Review | Submitted, awaiting ARC decision |
+| Approved | Fully approved with no conditions |
+| Approved w/ Conditions | Approved, but homeowner and contractor must comply with stated conditions |
+| Denied | Request rejected |
+| Completed | Construction finished and passed final inspection |
+| Overdue | 30-day review window has elapsed without a decision |
+
+---
+
+## 7. Notifications
+
+- Toast notification on successful submission
+- Notification bell (in-app) for status changes and new messages
+- Future: email and/or SMS notifications when ARC committee responds
+
+---
+
+## 8. Legal Compliance Requirements
+
+- The system must cite **NC GS §47F-3-107** (30-day review rule) wherever relevant
+- The neighbor notification requirement must be surfaced before submission and confirmed by checkbox
+- Overdue status must be flagged automatically after 30 days with no decision
+- The system should provide homeowners with relevant rules and approved materials **before** they submit to reduce rejections
+
+---
+
+## 9. Back-Office (ARC Committee) Requirements
+
+> Scope: the following are requirements for the back-office / admin view (separate from the resident portal).
+
+- View all submitted ARC requests across the community
+- Review request details, documents, and photos
+- Add comments visible to the homeowner
+- Issue a decision: Approve / Approve with Conditions / Deny
+- Specify conditions when approving with conditions (conditions must be forwarded to the contractor)
+- Respond in the message thread
+- Track review deadlines and receive overdue alerts
+
+---
+
+## 10. Out of Scope for Version 1
+
+- WhatsApp / SMS channel integration (communications are in-app and email only)
+- Contractor portal access (contractor communication is mediated via the ARC committee and homeowner message thread)
+- Automatic email threading (unique-email-per-conversation is a future enhancement)
+- Appeal workflow
+
+---
+
+## 11. Open Questions
+
+1. Who manages the "Approved Materials & Colors" reference content — HOA admin or Harmony platform admin?
+2. What is the exact behavior when the 30-day window lapses — is the request auto-approved per NC law, or just flagged as Overdue?
+3. Should contractors receive a copy of conditions directly, or only through the homeowner?
+4. For larger communities with dedicated committee members (vs. board-only), how is committee membership managed in the back-office?
+5. What document types and file size limits are supported for supporting document uploads?
